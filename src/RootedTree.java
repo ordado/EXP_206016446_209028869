@@ -1,4 +1,5 @@
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class RootedTree {
     GraphNode root;
@@ -11,16 +12,9 @@ public class RootedTree {
         this.root = root;
     }
 
-    public void PrintByLayerAux(Node curent, LinkedList ls) {
-        ls.listInsert(curent);
-
-
-    }
 
     public void PrintByLayer(DataOutputStream out) {
         try {
-
-
             Queue q = new Queue();
             q.Enqueue(new Node(root));
             q.Enqueue(new Node(new GraphNode(-1000)));
@@ -43,13 +37,12 @@ public class RootedTree {
                     index = index.getNext();
                     q.Enqueue(new Node(new GraphNode(-1000)));
                 }
-                index = q.list.getHead();
+                index = index.getNext();
             }
+        } catch (IOException ex) {
+            return;
         }
-
     }
-
-
 }
 
 
