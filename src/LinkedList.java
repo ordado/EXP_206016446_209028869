@@ -20,13 +20,23 @@ public class LinkedList {
         lengh++;
     }
 
+    public void listInsertAfter(Node x, Node y) {
+        if(y.next!=null)
+            y.next.prev=x;
+        x.next=y.next;
+        x.prev=y;
+        y.next=x;
+    }
+
+
+
     public void listDelete(Node x) {
-        if (x.next == null)
-            x.prev.next = null;
-        if (x.prev != null)
-            x.prev.next = x.next;
+        if (x.prev!=null)
+            x.prev.next=x.next;
         else
-            head = x.next;
+            this.head=x.next;
+        if (x.next != null)
+            x.next.prev = x.prev;
         if (lengh > 0)
             lengh--;
     }
