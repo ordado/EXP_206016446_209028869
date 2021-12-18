@@ -1,14 +1,15 @@
 public class GraphNode {
     int key;
-    LinkedList in_adjacency_list = new LinkedList();
-    LinkedList out_adjacency_list = new LinkedList();
+    Queue in_adjacency_list = new Queue();
+    Queue out_adjacency_list = new Queue();
 
     public GraphNode(int key) {
         this.key = key;
     }
 
+
     public int getOutDegree() {
-        return out_adjacency_list.lengh;
+        return out_adjacency_list.list.lengh;
         /*
         int count = 0;
         Node temp = out_adjacency_list.getHead();
@@ -21,7 +22,7 @@ public class GraphNode {
     }
 
     public int getInDegree() {
-        return in_adjacency_list.lengh;
+        return in_adjacency_list.list.lengh;
         /*
         int count = 0;
         Node temp = in_adjacency_list.getHead();

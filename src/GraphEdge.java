@@ -5,8 +5,8 @@ public class GraphEdge {
     public GraphEdge(GraphNode from, GraphNode to) {
         this.from = from;
         this.to = to;
-        from.out_adjacency_list.listInsert(new Node(to));
-        to.in_adjacency_list.listInsert(new Node(from));
+        from.out_adjacency_list.Enqueue(new Node(to));
+        to.in_adjacency_list.Enqueue(new Node(from));
     }
 
     public GraphNode getFrom() {
