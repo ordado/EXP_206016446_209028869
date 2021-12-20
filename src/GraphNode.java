@@ -2,9 +2,18 @@ public class GraphNode {
     int key;
     Queue in_adjacency_list = new Queue();
     Queue out_adjacency_list = new Queue();
+    Node pointer_to_vertices_list;
+    int d_bfs;
+    String color;
+    GraphNode pi;
+    GraphNode helper_bfs_dfs=null;
+
 
     public GraphNode(int key) {
         this.key = key;
+    }
+
+    private GraphNode() {
     }
 
 

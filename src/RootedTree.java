@@ -21,8 +21,8 @@ public class RootedTree {
     }
 
 
-    public void PrintByLayer(DataOutputStream out) {
-        try {
+    public void PrintByLayer(/*DataOutputStream out*/) {
+      //  try {
             Queue q = new Queue();
             q.Enqueue(new Node(root));
             q.Enqueue(new Node(new GraphNode(-1000)));
@@ -35,15 +35,15 @@ public class RootedTree {
                     continue;
                 }
                 if (q.list.head != null && q.list.head.getKey().key == -1000) {
-                    out.writeInt(index.getKey().key);
-                    out.writeChars(System.lineSeparator());
-                    //System.out.println(index.getKey().key);
+                   // out.writeInt(index.getKey().key);
+                   // out.writeChars(System.lineSeparator());
+                    System.out.println(index.getKey().key);
                     //print index.getkey without , and new line//
                 } else {
-                    out.writeInt(index.getKey().key);
-                    out.writeChar(',');
+                    // out.writeInt(index.getKey().key);
+                    //out.writeChar(',');
                     //print with ,//
-                    //System.out.print(index.getKey().key + ",");
+                    System.out.print(index.getKey().key + ",");
                 }
 
                 if (index.getKey().out_adjacency_list.list.head != null) {
@@ -57,31 +57,31 @@ public class RootedTree {
                 index = q.Dequeue();
 
             }
-        } catch (IOException ex) {
+        /*} catch (IOException ex) {
             return;
-        }
+        }*/
     }
 
-    private static void preorderPrintAux(DataOutputStream out, GraphNode root_pre) {
-        try {
+    private static void preorderPrintAux(/*DataOutputStream out, */GraphNode root_pre) {
+       // try {
             if (root_pre == null)
                 return;
             Node index = root_pre.out_adjacency_list.list.getHead();
-            out.writeInt(root_pre.getKey());
-            out.writeChar(',');
+            //out.writeInt(root_pre.getKey());
+            //out.writeChar(',');
             System.out.println(root_pre.getKey());
             while (index != null) {
-                preorderPrintAux(out, index.key);
+                preorderPrintAux(/*out, */index.key);
                 index = index.getNext();
             }
-        } catch (IOException ex) {
-            return;
-        }
+       // } //catch (IOException ex) {
+           // return;
+        //}
 
     }
 
-    public void preorderPrint(DataOutputStream out) {
-        preorderPrintAux(out, root);
+    public void preorderPrint(/* DataOutputStream out*/ ) {
+        preorderPrintAux(/*out,*/ root);
     }
 }
 
