@@ -8,8 +8,10 @@ public class GraphEdge {
         this.from = from;
         this.to = to;
         Node node_to = new Node(to);
+        pointer_to = node_to;
         from.out_adjacency_list.Enqueue(node_to);
         Node node_from = new Node(from);
+        getPointer_from = node_from;
         to.in_adjacency_list.Enqueue(node_from);
     }
 

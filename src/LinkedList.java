@@ -27,6 +27,7 @@ public class LinkedList {
         x.next = y.next;
         x.prev = y;
         y.next = x;
+        lengh++;
     }
 
 

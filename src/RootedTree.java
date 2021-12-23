@@ -5,7 +5,6 @@ public class RootedTree {
     GraphNode root;
 
     public RootedTree() {
-        // need to implement something???
     }
 
     public RootedTree(int key) {
@@ -21,8 +20,8 @@ public class RootedTree {
     }
 
 
-    public void PrintByLayer(/*DataOutputStream out*/) {
-      //  try {
+    public void printByLayer(DataOutputStream out) {
+        try {
             Queue q = new Queue();
             q.Enqueue(new Node(root));
             q.Enqueue(new Node(new GraphNode(-1000)));
@@ -35,21 +34,22 @@ public class RootedTree {
                     continue;
                 }
                 if (q.list.head != null && q.list.head.getKey().key == -1000) {
-                   // out.writeInt(index.getKey().key);
-                   // out.writeChars(System.lineSeparator());
-                    System.out.println(index.getKey().key);
+                    if (q.list.head.next == null) {
+                        out.writeBytes(index.getKey().key + "");
+
+                    } else
+                        out.writeBytes(index.getKey().key + System.lineSeparator());
+                    //System.out.println(index.getKey().key);
                     //print index.getkey without , and new line//
                 } else {
-                    // out.writeInt(index.getKey().key);
-                    //out.writeChar(',');
+                    out.writeBytes(index.getKey().key + ",");
                     //print with ,//
-                    System.out.print(index.getKey().key + ",");
+                    //System.out.print(index.getKey().key + ",");
                 }
 
                 if (index.getKey().out_adjacency_list.list.head != null) {
                     Node index2 = index.getKey().out_adjacency_list.list.head;
                     while (index2 != null) {
-                        //  System.out.println(index2.key.key);
                         q.Enqueue(new Node(index2.key));
                         index2 = index2.getNext();
                     }
@@ -57,31 +57,33 @@ public class RootedTree {
                 index = q.Dequeue();
 
             }
-        /*} catch (IOException ex) {
+        } catch (IOException ex) {
             return;
-        }*/
+        }
     }
 
-    private static void preorderPrintAux(/*DataOutputStream out, */GraphNode root_pre) {
-       // try {
+    private static void preorderPrintAux(DataOutputStream out, GraphNode root_pre) {
+        try {
             if (root_pre == null)
                 return;
             Node index = root_pre.out_adjacency_list.list.getHead();
-            //out.writeInt(root_pre.getKey());
-            //out.writeChar(',');
-            System.out.println(root_pre.getKey());
+            if (index == null)
+                out.writeBytes(root_pre.getKey() + "");
+            else
+                out.writeBytes(root_pre.getKey() + ",");
+
+            //System.out.println(root_pre.getKey());
             while (index != null) {
-                preorderPrintAux(/*out, */index.key);
+                preorderPrintAux(out, index.key);
                 index = index.getNext();
             }
-       // } //catch (IOException ex) {
-           // return;
-        //}
-
+        } catch (IOException ex) {
+            return;
+        }
     }
 
-    public void preorderPrint(/* DataOutputStream out*/ ) {
-        preorderPrintAux(/*out,*/ root);
+    public void preorderPrint(DataOutputStream out) {
+        preorderPrintAux(out, root);
     }
 }
 
