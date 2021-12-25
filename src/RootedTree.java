@@ -4,6 +4,7 @@ import java.io.IOException;
 public class RootedTree {
     GraphNode root;
 
+
     public RootedTree() {
     }
 
@@ -25,26 +26,18 @@ public class RootedTree {
             Queue q = new Queue();
             q.Enqueue(new Node(root));
             q.Enqueue(new Node(new GraphNode(-1000)));
-            Node index = q.Dequeue();
-            while (q.tail != null) {
+            Node index;
+            while (q.list.head != null) {
+                index = q.Dequeue();
                 if (index.key.key == -1000) {
                     if (q.list.head != null)
                         q.Enqueue(new Node(new GraphNode(-1000)));
-                    index = q.Dequeue();
                     continue;
                 }
                 if (q.list.head != null && q.list.head.getKey().key == -1000) {
-                    if (q.list.head.next == null) {
-                        out.writeBytes(index.getKey().key + "");
-
-                    } else
-                        out.writeBytes(index.getKey().key + System.lineSeparator());
-                    //System.out.println(index.getKey().key);
-                    //print index.getkey without , and new line//
+                    out.writeBytes(index.getKey().key + System.lineSeparator());
                 } else {
                     out.writeBytes(index.getKey().key + ",");
-                    //print with ,//
-                    //System.out.print(index.getKey().key + ",");
                 }
 
                 if (index.getKey().out_adjacency_list.list.head != null) {
@@ -54,8 +47,6 @@ public class RootedTree {
                         index2 = index2.getNext();
                     }
                 }
-                index = q.Dequeue();
-
             }
         } catch (IOException ex) {
             return;
@@ -67,12 +58,8 @@ public class RootedTree {
             if (root_pre == null)
                 return;
             Node index = root_pre.out_adjacency_list.list.getHead();
-            if (index == null)
-                out.writeBytes(root_pre.getKey() + "");
-            else
-                out.writeBytes(root_pre.getKey() + ",");
 
-            //System.out.println(root_pre.getKey());
+            out.writeBytes(root_pre.getKey() + ",");
             while (index != null) {
                 preorderPrintAux(out, index.key);
                 index = index.getNext();
@@ -82,8 +69,72 @@ public class RootedTree {
         }
     }
 
+
     public void preorderPrint(DataOutputStream out) {
         preorderPrintAux(out, root);
+    }
+
+    public void printByLayer() {
+        Queue q = new Queue();
+        q.Enqueue(new Node(root));
+        q.Enqueue(new Node(new GraphNode(-1000)));
+        Node index = q.Dequeue();
+        while (q.tail != null) {
+            if (index.key.key == -1000) {
+                if (q.list.head != null)
+                    q.Enqueue(new Node(new GraphNode(-1000)));
+                index = q.Dequeue();
+                continue;
+            }
+            if (q.list.head != null && q.list.head.getKey().key == -1000) {
+                if (q.list.head.next == null) {
+                    //out.writeBytes(index.getKey().key + "");
+                    System.out.println(index.getKey().key);
+                } else
+                    // out.writeBytes(index.getKey().key + System.lineSeparator());
+                    System.out.println(index.getKey().key);
+                //print index.getkey without , and new line//
+            } else {
+                //out.writeBytes(index.getKey().key + ",");
+                //print with ,//
+                System.out.print(index.getKey().key + ",");
+            }
+
+            if (index.getKey().out_adjacency_list.list.head != null) {
+                Node index2 = index.getKey().out_adjacency_list.list.head;
+                while (index2 != null) {
+                    q.Enqueue(new Node(index2.key));
+                    index2 = index2.getNext();
+                }
+            }
+            index = q.Dequeue();
+
+        }
+    }
+
+
+    private static void preorderPrintAux(GraphNode root_pre, int x) {
+        if (root_pre == null)
+            return;
+        Node index = root_pre.out_adjacency_list.list.getHead();
+        if (root_pre.getKey() == x)
+            System.out.print(root_pre.getKey());
+        else
+            System.out.print(root_pre.getKey() + ",");
+
+        while (index != null) {
+            preorderPrintAux(index.key, x);
+            index = index.getNext();
+        }
+    }
+
+
+    public void preorderPrint() {
+        Node temp = root.out_adjacency_list.tail;
+        while (temp.key.out_adjacency_list.list.head != null) {
+            temp = temp.key.out_adjacency_list.tail;
+        }
+        preorderPrintAux(root, temp.key.key);
     }
 }
 

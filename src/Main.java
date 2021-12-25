@@ -16,7 +16,7 @@ public class Main {
         GraphEdge edge41 = new GraphEdge(layer2L, layer3L);
         GraphEdge edge25 = new GraphEdge(layer2R, layer3R);
         GraphEdge edge19 = new GraphEdge(layer3L, layer4L);
-        GraphEdge edge18 = new GraphEdge(layer3L, layer4R);
+        GraphEdge edge18 = new GraphEdge(layer3L, layer4R);*/
         DynamicGraph graph_tree = new DynamicGraph();
         GraphNode layer1 = graph_tree.insertNode(7);
         GraphNode layer2R = graph_tree.insertNode(2);
@@ -31,11 +31,17 @@ public class Main {
         graph_tree.insertEdge(layer2R, layer3R);
         graph_tree.insertEdge(layer3L, layer4L);
         graph_tree.insertEdge(layer3L, layer4R);
+        graph_tree.scc().preorderPrint();
         RootedTree tree1 = graph_tree.bfs(layer1);
-        tree1.PrintByLayer();*/
+        tree1.printByLayer();
+        tree1.preorderPrint();
+        System.out.println("--------------------");
+        RootedTree after_scc = graph_tree.scc();
+        after_scc.printByLayer();
+        after_scc.preorderPrint();
+
 
     }
-
 
 }
 

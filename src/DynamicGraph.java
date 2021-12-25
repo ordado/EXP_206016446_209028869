@@ -79,33 +79,38 @@ public class DynamicGraph {
         time++;
         u.d = time;
         u.color = "gray";
-        Node v = u.out_adjacency_list.tail;
+        Node v = u.out_adjacency_list.list.head;
+
         while (v != null) {
             if (v.key.color == "white") {
                 v.key.pi = u;
                 dfs_visit(vertices, v.key);
             }
-            u.color = "black";
-            time++;
-            u.f = time;
-            vertices.list.listInsert(new Node(u));
+            v = v.next;
+
         }
+        u.color = "black";
+        time++;
+        u.f = time;
+        vertices.list.listInsert(new Node(u));
+
     }
 
-    public Queue dfs(Queue vertices) {
-        Node u = vertices.tail;
+    public Queue dfs(Queue vertices2) {
+        Node u = vertices2.list.head;
         Queue vertices_second_dfs = new Queue();
         while (u != null) {
             u.key.color = "white";
             u.key.pi = null;
             u.key.helper_bfs_dfs = null;
-            u = u.getPrev();
+            u = u.next;
         }
         time = 0;
-        u = vertices.tail;
-        while (u != null) {
-            if (u.key.color == "white")
-                dfs_visit(vertices_second_dfs, u.key);
+        Node uu = vertices.list.head;
+        while (uu != null) {
+            if (uu.key.color == "white")
+                dfs_visit(vertices_second_dfs, uu.key);
+            uu = uu.next;
         }
         return vertices_second_dfs;
     }
@@ -139,7 +144,6 @@ public class DynamicGraph {
                     new GraphEdge(scc_forest.root, temp.key.helper_bfs_dfs);
                     last_in = temp.key.helper_bfs_dfs;
                 }
-
             } else {
                 if (temp.key.helper_bfs_dfs == null) {
                     temp.key.helper_bfs_dfs = new GraphNode(temp.key.key);
@@ -150,8 +154,8 @@ public class DynamicGraph {
                     last_in = temp.key.helper_bfs_dfs;
                 }
             }
+            temp = temp.next;
         }
         return scc_forest;
     }
-
 }
