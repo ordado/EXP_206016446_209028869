@@ -16,7 +16,7 @@ public class DynamicGraph {
     }
 
     public void deleteNode(GraphNode Node) {
-        if (Node.out_adjacency_list == null && Node.in_adjacency_list == null) {
+        if (Node.out_adjacency_list.tail == null && Node.in_adjacency_list.tail == null) {
             if (Node.pointer_to_vertices_list == vertices.tail) {
                 vertices.tail = vertices.tail.prev;
             }
@@ -30,9 +30,10 @@ public class DynamicGraph {
     }
 
     public void deleteEdge(GraphEdge edge) {
-        edge.from.out_adjacency_list.list.listDelete(edge.pointer_to);
         if (edge.from.out_adjacency_list.tail == edge.pointer_to)
             edge.from.out_adjacency_list.tail = edge.from.out_adjacency_list.tail.prev;
+        edge.from.out_adjacency_list.list.listDelete(edge.pointer_to);
+
         if (edge.to.in_adjacency_list.tail == edge.getPointer_from)
             edge.to.in_adjacency_list.tail = edge.to.in_adjacency_list.tail.prev;
         edge.to.in_adjacency_list.list.listDelete(edge.getPointer_from);
@@ -87,13 +88,14 @@ public class DynamicGraph {
         u.d = time;
         u.color = "gray";
         Node v = u.out_adjacency_list.list.head;
-
+        while (v!=null&&v.next!=null)
+            v=v.next;
         while (v != null) {
             if (v.key.color == "white") {
                 v.key.pi = u;
                 dfs_visit(vertices, v.key);
             }
-            v = v.next;
+            v = v.prev;
         }
 
         u.color = "black";

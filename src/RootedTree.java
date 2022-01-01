@@ -29,15 +29,11 @@ public class RootedTree {
             Node index;
             while (q.list.head != null) {
                 index = q.Dequeue();
+
                 if (index.key.key == -1000) {
                     if (q.list.head != null)
                         q.Enqueue(new Node(new GraphNode(-1000)));
                     continue;
-                }
-                if (q.list.head != null && q.list.head.getKey().key == -1000) {
-                    out.writeBytes(index.getKey().key + System.lineSeparator());
-                } else {
-                    out.writeBytes(index.getKey().key + ",");
                 }
 
                 if (index.getKey().out_adjacency_list.list.head != null) {
@@ -46,6 +42,15 @@ public class RootedTree {
                         q.Enqueue(new Node(index2.key));
                         index2 = index2.getNext();
                     }
+                }
+                if (q.list.head != null && q.list.head.getKey().key == -1000) {
+                    if(q.list.head.next==null)
+                        out.writeBytes(index.getKey().key + "");
+                    else
+                        out.writeBytes(index.getKey().key + System.lineSeparator());
+
+                } else {
+                    out.writeBytes(index.getKey().key + ",");
                 }
             }
         } catch (IOException ex) {
