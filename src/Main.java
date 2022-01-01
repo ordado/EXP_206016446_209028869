@@ -3,7 +3,7 @@ import java.io.DataOutputStream;
 public class Main {
 
     public static void main(String[] args) {
-       /* GraphNode layer1 = new GraphNode(7);
+        GraphNode layer1 = new GraphNode(7);
         RootedTree tree = new RootedTree(layer1);
         GraphNode layer2R = new GraphNode(2);
         GraphNode layer2L = new GraphNode(4);
@@ -16,29 +16,33 @@ public class Main {
         GraphEdge edge41 = new GraphEdge(layer2L, layer3L);
         GraphEdge edge25 = new GraphEdge(layer2R, layer3R);
         GraphEdge edge19 = new GraphEdge(layer3L, layer4L);
-        GraphEdge edge18 = new GraphEdge(layer3L, layer4R);*/
+        GraphEdge edge18 = new GraphEdge(layer3L, layer4R);
         DynamicGraph graph_tree = new DynamicGraph();
-        GraphNode layer1 = graph_tree.insertNode(7);
-        GraphNode layer2R = graph_tree.insertNode(2);
-        GraphNode layer2L = graph_tree.insertNode(4);
-        GraphNode layer3L = graph_tree.insertNode(1);
-        GraphNode layer3R = graph_tree.insertNode(5);
-        GraphNode layer4L = graph_tree.insertNode(9);
-        GraphNode layer4R = graph_tree.insertNode(8);
-        graph_tree.insertEdge(layer1, layer2L);
-        graph_tree.insertEdge(layer1, layer2R);
-        graph_tree.insertEdge(layer2L, layer3L);
-        graph_tree.insertEdge(layer2R, layer3R);
-        graph_tree.insertEdge(layer3L, layer4L);
-        graph_tree.insertEdge(layer3L, layer4R);
-        graph_tree.scc().preorderPrint();
-        RootedTree tree1 = graph_tree.bfs(layer1);
-        tree1.printByLayer();
-        tree1.preorderPrint();
-        System.out.println("--------------------");
-        RootedTree after_scc = graph_tree.scc();
-        after_scc.printByLayer();
-        after_scc.preorderPrint();
+        GraphNode layer11 = graph_tree.insertNode(7);
+        GraphNode layer22R = graph_tree.insertNode(2);
+        GraphNode layer22L = graph_tree.insertNode(4);
+        GraphNode layer33L = graph_tree.insertNode(1);
+        GraphNode layer33R = graph_tree.insertNode(5);
+        GraphNode layer44L = graph_tree.insertNode(9);
+        GraphNode layer44R = graph_tree.insertNode(8);
+        graph_tree.insertEdge(layer11, layer22L);
+        graph_tree.insertEdge(layer22L, layer11);
+        graph_tree.insertEdge(layer11, layer22R);
+        graph_tree.insertEdge(layer22R, layer11);
+        graph_tree.insertEdge(layer22L, layer33L);
+        graph_tree.insertEdge(layer33L, layer22L);
+        graph_tree.insertEdge(layer22R, layer33R);
+        graph_tree.insertEdge(layer33R, layer22R);
+        graph_tree.insertEdge(layer33L, layer44L);
+        graph_tree.insertEdge(layer44L, layer33L);
+        graph_tree.insertEdge(layer33L, layer44R);
+        graph_tree.insertEdge(layer44R, layer33L);
+        System.out.println("print printByLayer before scc");
+        tree.printByLayer();
+        System.out.println("print printByLayer after scc");
+        graph_tree.scc().printByLayer();
+
+
 
 
     }

@@ -75,41 +75,32 @@ public class RootedTree {
     }
 
     public void printByLayer() {
-        Queue q = new Queue();
-        q.Enqueue(new Node(root));
-        q.Enqueue(new Node(new GraphNode(-1000)));
-        Node index = q.Dequeue();
-        while (q.tail != null) {
-            if (index.key.key == -1000) {
-                if (q.list.head != null)
-                    q.Enqueue(new Node(new GraphNode(-1000)));
-                index = q.Dequeue();
-                continue;
-            }
-            if (q.list.head != null && q.list.head.getKey().key == -1000) {
-                if (q.list.head.next == null) {
-                    //out.writeBytes(index.getKey().key + "");
-                    System.out.println(index.getKey().key);
-                } else
-                    // out.writeBytes(index.getKey().key + System.lineSeparator());
-                    System.out.println(index.getKey().key);
-                //print index.getkey without , and new line//
-            } else {
-                //out.writeBytes(index.getKey().key + ",");
-                //print with ,//
-                System.out.print(index.getKey().key + ",");
-            }
 
-            if (index.getKey().out_adjacency_list.list.head != null) {
-                Node index2 = index.getKey().out_adjacency_list.list.head;
-                while (index2 != null) {
-                    q.Enqueue(new Node(index2.key));
-                    index2 = index2.getNext();
+            Queue q = new Queue();
+            q.Enqueue(new Node(root));
+            q.Enqueue(new Node(new GraphNode(-1000)));
+            Node index;
+            while (q.list.head != null) {
+                index = q.Dequeue();
+                if (index.key.key == -1000) {
+                    if (q.list.head != null)
+                        q.Enqueue(new Node(new GraphNode(-1000)));
+                    continue;
+                }
+                if (q.list.head != null && q.list.head.getKey().key == -1000) {
+                    System.out.println(index.getKey().key);
+                } else {
+                    System.out.print(index.getKey().key + ",");
+                }
+
+                if (index.getKey().out_adjacency_list.list.head != null) {
+                    Node index2 = index.getKey().out_adjacency_list.list.head;
+                    while (index2 != null) {
+                        q.Enqueue(new Node(index2.key));
+                        index2 = index2.getNext();
+                    }
                 }
             }
-            index = q.Dequeue();
-
-        }
     }
 
 

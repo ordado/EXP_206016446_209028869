@@ -17,6 +17,9 @@ public class DynamicGraph {
 
     public void deleteNode(GraphNode Node) {
         if (Node.out_adjacency_list == null && Node.in_adjacency_list == null) {
+            if (Node.pointer_to_vertices_list == vertices.tail) {
+                vertices.tail = vertices.tail.prev;
+            }
             vertices.list.listDelete(Node.pointer_to_vertices_list);
         }
     }
@@ -40,7 +43,7 @@ public class DynamicGraph {
             v.key.helper_bfs_dfs = null;
             v = v.next;
         }
-        q.Enqueue(new Node(s));
+        q.list.listInsert(new Node(s));
         s.color = "gray";
         s.d = 0;
         s.pi = null;
@@ -80,19 +83,20 @@ public class DynamicGraph {
         u.d = time;
         u.color = "gray";
         Node v = u.out_adjacency_list.list.head;
-
+        while(v!=null && v.next!=null)
+            v=v.next;
         while (v != null) {
             if (v.key.color == "white") {
                 v.key.pi = u;
                 dfs_visit(vertices, v.key);
             }
-            v = v.next;
-
+            v = v.prev;
         }
+
         u.color = "black";
         time++;
         u.f = time;
-        vertices.list.listInsert(new Node(u));
+        vertices.Enqueue(new Node(u));
 
     }
 
@@ -106,22 +110,25 @@ public class DynamicGraph {
             u = u.next;
         }
         time = 0;
-        Node uu = vertices.list.head;
+        Node uu = vertices2.list.head;
+        while(uu!=null && uu.next!=null)
+            uu=uu.next;
+
         while (uu != null) {
             if (uu.key.color == "white")
                 dfs_visit(vertices_second_dfs, uu.key);
-            uu = uu.next;
+            uu = uu.prev;
         }
         return vertices_second_dfs;
     }
 
     public void transpose(Queue vertices) {
-        Node u = vertices.tail;
+        Node u = vertices.list.head;
         while (u != null) {
             Queue temp = u.key.out_adjacency_list;
             u.key.out_adjacency_list = u.key.in_adjacency_list;
             u.key.in_adjacency_list = temp;
-            u = u.prev;
+            u = u.next;
         }
     }
 
@@ -133,27 +140,19 @@ public class DynamicGraph {
         Queue vertices_final = dfs(vertices_second_dfs);
         transpose(vertices_second_dfs);
         Node temp = vertices_final.list.getHead();
-        GraphNode last_in = null;
         while (temp != null) {
-            if (temp.key.pi == null) {
-                if (temp.key.helper_bfs_dfs == null) {
-                    temp.key.helper_bfs_dfs = new GraphNode(temp.key.key);
-                    new GraphEdge(scc_forest.root, temp.key.helper_bfs_dfs);
-                    last_in = temp.key.helper_bfs_dfs;
-                } else {
-                    new GraphEdge(scc_forest.root, temp.key.helper_bfs_dfs);
-                    last_in = temp.key.helper_bfs_dfs;
-                }
-            } else {
-                if (temp.key.helper_bfs_dfs == null) {
-                    temp.key.helper_bfs_dfs = new GraphNode(temp.key.key);
-                    new GraphEdge(last_in, temp.key.helper_bfs_dfs);
-                    last_in = temp.key.helper_bfs_dfs;
-                } else {
-                    new GraphEdge(last_in, temp.key.helper_bfs_dfs);
-                    last_in = temp.key.helper_bfs_dfs;
-                }
-            }
+            temp.key.helper_bfs_dfs = new GraphNode(temp.key.key);
+            temp = temp.next;
+        }
+
+        temp = vertices_final.list.getHead();
+
+        while (temp != null) {
+            if (temp.key.pi == null)
+                new GraphEdge(scc_forest.root, temp.key.helper_bfs_dfs);
+            else
+                new GraphEdge(temp.key.pi.helper_bfs_dfs, temp.key.helper_bfs_dfs);
+
             temp = temp.next;
         }
         return scc_forest;

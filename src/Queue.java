@@ -7,6 +7,7 @@ public class Queue {
 
     public Queue(Node node) {
         tail = node;
+        list.listInsert(node);
         tail.next = null;
         tail.prev = null;
     }
