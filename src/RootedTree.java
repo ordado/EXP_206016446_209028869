@@ -44,7 +44,7 @@ public class RootedTree {
                     }
                 }
                 if (q.list.head != null && q.list.head.getKey().key == -1000) {
-                    if(q.list.head.next==null)
+                    if (q.list.head.next == null)
                         out.writeBytes(index.getKey().key + "");
                     else
                         out.writeBytes(index.getKey().key + System.lineSeparator());
@@ -58,15 +58,17 @@ public class RootedTree {
         }
     }
 
-    private static void preorderPrintAux(DataOutputStream out, GraphNode root_pre) {
+    private static void preorderPrintAux(DataOutputStream out, GraphNode root_pre, int last) {
         try {
             if (root_pre == null)
                 return;
             Node index = root_pre.out_adjacency_list.list.getHead();
-
-            out.writeBytes(root_pre.getKey() + ",");
+            if (root_pre.getKey() == last)
+                out.writeBytes(root_pre.getKey() + "");
+            else
+                out.writeBytes(root_pre.getKey() + ",");
             while (index != null) {
-                preorderPrintAux(out, index.key);
+                preorderPrintAux(out, index.key, last);
                 index = index.getNext();
             }
         } catch (IOException ex) {
@@ -76,36 +78,40 @@ public class RootedTree {
 
 
     public void preorderPrint(DataOutputStream out) {
-        preorderPrintAux(out, root);
+        GraphNode temp = root;
+        while (temp.out_adjacency_list.tail != null) {
+            temp = temp.out_adjacency_list.tail.key;
+        }
+        preorderPrintAux(out, root, temp.key);
     }
 
     public void printByLayer() {
 
-            Queue q = new Queue();
-            q.Enqueue(new Node(root));
-            q.Enqueue(new Node(new GraphNode(-1000)));
-            Node index;
-            while (q.list.head != null) {
-                index = q.Dequeue();
-                if (index.key.key == -1000) {
-                    if (q.list.head != null)
-                        q.Enqueue(new Node(new GraphNode(-1000)));
-                    continue;
-                }
-                if (q.list.head != null && q.list.head.getKey().key == -1000) {
-                    System.out.println(index.getKey().key);
-                } else {
-                    System.out.print(index.getKey().key + ",");
-                }
+        Queue q = new Queue();
+        q.Enqueue(new Node(root));
+        q.Enqueue(new Node(new GraphNode(-1000)));
+        Node index;
+        while (q.list.head != null) {
+            index = q.Dequeue();
+            if (index.key.key == -1000) {
+                if (q.list.head != null)
+                    q.Enqueue(new Node(new GraphNode(-1000)));
+                continue;
+            }
+            if (q.list.head != null && q.list.head.getKey().key == -1000) {
+                System.out.println(index.getKey().key);
+            } else {
+                System.out.print(index.getKey().key + ",");
+            }
 
-                if (index.getKey().out_adjacency_list.list.head != null) {
-                    Node index2 = index.getKey().out_adjacency_list.list.head;
-                    while (index2 != null) {
-                        q.Enqueue(new Node(index2.key));
-                        index2 = index2.getNext();
-                    }
+            if (index.getKey().out_adjacency_list.list.head != null) {
+                Node index2 = index.getKey().out_adjacency_list.list.head;
+                while (index2 != null) {
+                    q.Enqueue(new Node(index2.key));
+                    index2 = index2.getNext();
                 }
             }
+        }
     }
 
 
