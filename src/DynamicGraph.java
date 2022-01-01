@@ -10,7 +10,7 @@ public class DynamicGraph {
     public GraphNode insertNode(int nodeKey) {
         GraphNode gn = new GraphNode(nodeKey);
         Node in_vertices = new Node(gn);
-        vertices.list.listInsert(in_vertices);
+        vertices.Enqueue(in_vertices);
         gn.pointer_to_vertices_list = in_vertices;
         return gn;
     }
@@ -31,6 +31,10 @@ public class DynamicGraph {
 
     public void deleteEdge(GraphEdge edge) {
         edge.from.out_adjacency_list.list.listDelete(edge.pointer_to);
+        if (edge.from.out_adjacency_list.tail == edge.pointer_to)
+            edge.from.out_adjacency_list.tail = edge.from.out_adjacency_list.tail.prev;
+        if (edge.to.in_adjacency_list.tail == edge.getPointer_from)
+            edge.to.in_adjacency_list.tail = edge.to.in_adjacency_list.tail.prev;
         edge.to.in_adjacency_list.list.listDelete(edge.getPointer_from);
     }
 
@@ -43,7 +47,7 @@ public class DynamicGraph {
             v.key.helper_bfs_dfs = null;
             v = v.next;
         }
-        q.list.listInsert(new Node(s));
+        q.Enqueue(new Node(s));
         s.color = "gray";
         s.d = 0;
         s.pi = null;
@@ -83,14 +87,13 @@ public class DynamicGraph {
         u.d = time;
         u.color = "gray";
         Node v = u.out_adjacency_list.list.head;
-        while(v!=null && v.next!=null)
-            v=v.next;
+
         while (v != null) {
             if (v.key.color == "white") {
                 v.key.pi = u;
                 dfs_visit(vertices, v.key);
             }
-            v = v.prev;
+            v = v.next;
         }
 
         u.color = "black";
@@ -111,8 +114,8 @@ public class DynamicGraph {
         }
         time = 0;
         Node uu = vertices2.list.head;
-        while(uu!=null && uu.next!=null)
-            uu=uu.next;
+        while (uu != null && uu.next != null)
+            uu = uu.next;
 
         while (uu != null) {
             if (uu.key.color == "white")
